@@ -182,7 +182,9 @@ article .news-lists {
 .news-list .newsimg {
     flex: 1;
 }
-
+.news-list .newsimg img{
+    width: 100%;
+}
 .news-list .newscontent {
     flex: 2;
     padding: 0 0 0 0.5rem;
