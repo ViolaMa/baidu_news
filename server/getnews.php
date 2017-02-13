@@ -1,26 +1,43 @@
 <?php
-    header("Content-type:application/json; charset = utf-8");
+header("Content-type:application/json; charset = utf-8");
+require_once('dblink.php');
 
-	$con = mysql_connect('localhost','root','');
-	if(!$con){
-		die('Could not connect:'.mysql_error());
-	}
-	else{
-		mysql_select_db('news',$con);
-		$sql = 'SELECT * from newsList';
-		mysql_query("set names 'utf8'");
-		$result = mysql_query($sql,$con);
+    if(@$_GET['newstype']) {
+        $newstype =$_GET['newstype'];
+        $sql = "SELECT * FROM `newslist` WHERE `newstype`='{$newstype}'";
 
-		$arr = array();
-		while($row = mysql_fetch_array($result)){
-		array_push($arr,array("newstitle")=>$row['newstitle'])}
-	}
-//    $arr = array(
-//        'newstitle'=>'用电回升透露了哪些经济信号',
-//        'newstype'=>'财经',
-//        'newsimg'=>'images/news_2.jpg',
-//        'newstime'=>'2016-1-18',
-//        'newssrc'=>'网易新闻');
-//
-//    echo json_encode($arr);
+        $result = mysql_query($sql, $con);
+        $senddata = array();
+        while ($row = mysql_fetch_array($result)) {
+            array_push($senddata, array(
+                'newsid' => $row['newsid'],
+                'newstype' => $row['newstype'],
+                'newstitle' => $row['newstitle'],
+                'newsimg' => $row['newsimg'],
+                'newssrc' => $row['newssrc'],
+                'addtime' => $row['addtime'],
+            ));
+        }
+        //$result = array("errcode" => 0, "result" => $arr);
+        echo json_encode($senddata);
+    } else {
+
+        $sql = "SELECT * FROM `newslist`";
+
+        $result = mysql_query($sql, $con);
+        $senddata = array();
+        while ($row = mysql_fetch_array($result)) {
+            array_push($senddata, array(
+                'newsid' => $row['newsid'],
+                'newstype' => $row['newstype'],
+                'newstitle' => $row['newstitle'],
+                'newsimg' => $row['newsimg'],
+                'newssrc' => $row['newssrc'],
+                'addtime' => $row['addtime'],
+            ));
+        }
+        //$result = array("errcode" => 0, "result" => $arr);
+        echo json_encode($senddata);
+    }
+mysql_close($con);
 ?>
