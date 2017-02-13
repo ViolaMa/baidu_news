@@ -191,8 +191,11 @@ article .news-lists {
 }
 
 .news-list .newscontent h1 {
+    position: relative;
     margin: 0;
     font-size: 1.8rem;
+    min-height:4rem;
+
 }
 
 .news-list .newscontent p {
